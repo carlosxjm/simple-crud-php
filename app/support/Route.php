@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Support;
+
 class Route
 {
 	private $controller;
@@ -13,7 +15,8 @@ class Route
 	}
 
 	public function call() {
-		$controller =  new $this->controller();
+		$namespace = 'App\\Controllers\\'.$this->controller;
+		$controller =  new $namespace();
 		$controller->{$this->action}();
 	}
 }

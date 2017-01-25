@@ -1,10 +1,16 @@
 <?php
 
-include_once __DIR__.'/../autoload.php';
+	include_once __DIR__.'/../autoload.php';
+	include_once __DIR__.'/../config.php';
+	$routes = include_once __DIR__.'/../routes.php';
 
-$routes = include_once __DIR__.'/../routes.php';
+	use App\Support\Route;
 
-$request_route = trim($_SERVER["PHP_SELF"], '/');
+	$requestRoute = trim($_SERVER["PHP_SELF"], '/');
 
-$route = new Route($routes[$request_route]);
-$route->call();
+	if (isset($routes[$requestRoute])) {
+		$route = new Route($routes[$requestRoute]);
+		$route->call();
+	} else {
+		include __DIR__.'/404.php';
+	}

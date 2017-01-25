@@ -1,12 +1,14 @@
 <?php
 
-function __autoload($classe)
-{
-	$paths = ['models', 'controllers', 'helpers'];
-	foreach ($paths as $path) {
-		$file = __DIR__."/$path/$classe.php";
-		if (file_exists($file)) {
-			include_once $file;
-		}
+	function getFilePath($namespace) {
+		$namespaceArr = explode('\\',$namespace);
+		$className = end($namespaceArr);
+		array_pop($namespaceArr);
+		return __DIR__.'/'.strtolower(implode('/', $namespaceArr)).'/'.$className.'.php';
 	}
-}
+
+	function autoloadMyApp($namespace) {
+		include_once getFilePath($namespace);
+	}
+
+	spl_autoload_register('autoloadMyApp');
